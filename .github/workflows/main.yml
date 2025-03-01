@@ -1,0 +1,34 @@
+name: pdf2md
+
+on: [push]
+
+jobs:
+  transcribe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    
+
+    - name: Install Python packages
+      run: |
+        pip install pdfplumber
+
+    
+
+    - name: Run pdf2md
+      run: python pdf2md.py
+
+    - name: Upload result
+      uses: actions/upload-artifact@v4  # 更新到v4版本
+      with:
+        name: transcription-result
+        path: output.md
